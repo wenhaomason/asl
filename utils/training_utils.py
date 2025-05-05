@@ -38,7 +38,7 @@ class Trainer:
         self.run_name = f"{self.model.__class__.__name__}_{unfreeze_layers}_LR{self.learning_rate}_{scheduler.__class__.__name__}_{self.num_epochs}epochs_BatchSize{self.batch_size}_{self.time_stamp}"
         self.tensorboard_log = tensorboard_log
         if self.tensorboard_log:
-            self.log_dir = os.path.join("runs", self.run_name)
+            self.log_dir = os.path.join("./runs", self.run_name)
             self.model_dir = os.path.join(self.log_dir, "models")
             os.makedirs(self.model_dir, exist_ok=True)
             self.latest_checkpoint_path = os.path.join(self.model_dir, f'{self.run_name}_latest.pth')

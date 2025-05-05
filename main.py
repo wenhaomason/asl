@@ -1,28 +1,29 @@
-from data_utils import ASLDataLoader
-from device_utils import get_device
-from model_utils import get_model
-from training_utils import Trainer
-from evaluation_utils import evaluate_model, calculate_metrics
-from visualization_utils import plot_and_save_history, plot_and_save_confusion_matrix
+from utils.data_utils import ASLDataLoader
+from utils.device_utils import get_device
+from utils.model_utils import get_model
+from utils.training_utils import Trainer
+from utils.evaluation_utils import evaluate_model, calculate_metrics
+from utils.visualization_utils import plot_and_save_confusion_matrix, plot_and_save_history
 import torch
 import os
 
-from visualization_utils import plot_and_save_history
+# Data Configuration
+DATA_DIR = 'data'   # Directory containing the dataset
+BATCH_SIZE = 512    # Batch size for training and validation
+IMG_SIZE = 224      # Image size for the model (224 for EfficientNet, 224 for ResNet)
+TRAIN_RATIO = 0.7   # Ratio of training data
+VAL_RATIO = 0.1     # Ratio of validation data
+TEST_RATIO = 0.2    # Ratio of test data
+NUM_WORKERS = 2     # Number of workers for data loading
 
-DATA_DIR = 'asl_alphabet'
-BATCH_SIZE = 512
-IMG_SIZE = 224
-TRAIN_RATIO = 0.7
-VAL_RATIO = 0.1
-TEST_RATIO = 0.2
-NUM_WORKERS = 2
+# Model Configuration
+MODEL_NAME = 'resnet50' # Options: 'efficientnet_b0' or 'resnet50'
+UNFREEZE_LAYERS = 'C0' # Options: 'C0' (only classifier), 'C1' (classifier + last block), 'C2' (classifier + last 2 blocks)
 
-MODEL_NAME = 'resnet50'
-UNFREEZE_LAYERS = 'C1'
-
-LEARNING_RATE = 0.01
-LR_SCHEDULER = 'CosineAnnealingLR' # Options: 'CosineAnnealingLR', 'StepLR', 'ReduceLROnPlateau'
-NUM_EPOCHS = 1
+# Training Configuration
+LEARNING_RATE = 0.01                # Initial learning rate
+LR_SCHEDULER = 'CosineAnnealingLR'  # Options: 'CosineAnnealingLR', 'StepLR', 'ReduceLROnPlateau'
+NUM_EPOCHS = 30                      # Number of epochs for training
 
 if __name__ == '__main__':
     dataset = ASLDataLoader(
@@ -89,9 +90,10 @@ if __name__ == '__main__':
         criterion=criterion,
         device=device)
     print(f"Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.4f}")
-    cm = calculate_metrics(all_preds, all_labels, class_names)
-
+    metrics = calculate_metrics(all_preds, all_labels, class_names)
+    print(f"Test Accuracy: {metrics['accuracy']:.4f}")
+    print(metrics['classification_report'])
 
     save_dir = os.path.join('results', trainer.run_name, 'plots_and_data')
     plot_and_save_history(history, run_name=trainer.run_name, save_dir=save_dir)
-    plot_and_save_confusion_matrix(cm, class_names, run_name=trainer.run_name, save_dir=save_dir)
+    plot_and_save_confusion_matrix(metrics['confusion_matrix'], class_names, run_name=trainer.run_name, save_dir=save_dir)

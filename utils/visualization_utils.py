@@ -204,27 +204,3 @@ def plot_and_save_confusion_matrix(cm: np.ndarray,
             print(f"  Confusion matrix data saved successfully (CSV format): {cm_data_filename_csv}")
         except Exception as e:
             print(f"Error saving confusion matrix data to .csv: {e}")
-
-
-# --- Example Usage (within your main script after getting metrics) ---
-# if __name__ == "__main__":
-#     # --- Dummy Data ---
-#     dummy_history = {
-#         'train_loss': [1.0, 0.5, 0.2], 'train_acc': [0.5, 0.7, 0.9],
-#         'val_loss': [1.2, 0.6, 0.3], 'val_acc': [0.4, 0.65, 0.85]
-#     }
-#     dummy_cm = np.array([[10, 2, 0], [1, 12, 1], [0, 3, 9]])
-#     dummy_class_names = ['Class A', 'Class B', 'Class C']
-#     dummy_run_name = "test_run_123"
-#     dummy_save_dir = os.path.join("experiment_results", dummy_run_name, "plots_and_data") # Save inside run dir
-
-#     # --- Test Functions ---
-#     plot_and_save_history(dummy_history, dummy_run_name, dummy_save_dir)
-#     plot_and_save_confusion_matrix(dummy_cm, dummy_class_names, dummy_run_name, dummy_save_dir, save_csv=True)
-#     plot_and_save_confusion_matrix(dummy_cm, dummy_class_names, dummy_run_name, dummy_save_dir, normalize=True)
-
-#     print("\nCheck the 'experiment_results/test_run_123/plots_and_data' directory for saved files.")
-#     # Optional: Clean up dummy directory
-#     # import shutil
-#     # if os.path.exists(os.path.dirname(dummy_save_dir)):
-#     #      shutil.rmtree(os.path.dirname(dummy_save_dir))

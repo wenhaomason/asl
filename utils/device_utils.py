@@ -11,10 +11,3 @@ def get_device():
         device = torch.device("cpu")
         print("Using CPU")
     return device
-
-if __name__ == "__main__":
-    device = get_device()
-    print(f"Device: {device}")
-    # Test if the device is available
-    x = torch.tensor([1.0], device=device)
-    print(f"Tensor on {device}: {x}")
