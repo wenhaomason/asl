@@ -23,7 +23,7 @@ UNFREEZE_LAYERS = 'C0' # Options: 'C0' (only classifier), 'C1' (classifier + las
 # Training Configuration
 LEARNING_RATE = 0.01                # Initial learning rate
 LR_SCHEDULER = 'CosineAnnealingLR'  # Options: 'CosineAnnealingLR', 'StepLR', 'ReduceLROnPlateau'
-NUM_EPOCHS = 30                      # Number of epochs for training
+NUM_EPOCHS = 1                      # Number of epochs for training
 
 if __name__ == '__main__':
     dataset = ASLDataLoader(
